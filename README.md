@@ -1,7 +1,7 @@
 # asmbl
 add the ASMBL folder to c:\amb_Gas
 
-  use rsm to open dosBox in your current folder]
+  use rsm to open dosBox in your current folder
 
   use asm to assemble a .s file
 
