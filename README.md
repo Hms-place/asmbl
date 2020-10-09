@@ -7,6 +7,6 @@ add the ASMBL folder to c:\amb_Gas
 
   use dbg to debug a .exe file
 
-add c:\amb_Gas\ASMBL to the PATH variable to use rsm from wherever you want
+add c:\amb_Gas\ASMBL to the PATH variable to use rsm wherever you want
 
 all .c file are compiled with gcc in dosbox
