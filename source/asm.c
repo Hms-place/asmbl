@@ -2,9 +2,6 @@
 #include<stdio.h> 
 #include "asmlib.h"
 
-//TODO
-//maybe check to don't do anything if assemble.bat had problems
-//esplode tipo sempre
 void Help(){
 	// asm erjh.s -o dio.exe -l -help
 	puts(" asm filename.s [-o outputname.exe] [-l] \r\n -help");
@@ -75,27 +72,3 @@ int main(int argc, char *argv[]) {
 	system(toprint);
     return 0; 
 }
-
-
-/*
-	OLD
-	sprintf(mystr,"copy %s.s c:\\work\\toass.s >NUL",noext);
-	system(mystr);
-	// ASSEMBLE 
-	sprintf(mystr,"c:\\work\\assemble.bat c:\\work\\toass.s >NUL",noext);
-	system(mystr);
-	//copy in cur folder the output
-	sprintf(mystr,"copy c:\\work\\toass.exe %s >NUL",output);
-	system(mystr);
-	//check if all went well
-	if(access(output, 0) == -1 ) {
-		puts("cannot open output file no such file or directory");
-		return 1;
-	}
-	
-	//delete ass.s and ass.exe
-	system("IF EXIST c:\\work\\toass.exe del c:\\work\\toass.exe >NUL");
-	system("IF EXIST c:\\work\\toass.s del c:\\work\\toass.s >NUL");
-	system("IF EXIST c:\\work\\listato.txt del c:\\work\\listato.txt >NUL");
-	return 0;
-*/
