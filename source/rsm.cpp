@@ -10,18 +10,25 @@ char * getDosBoxCompPath(const char * myStr){
 	int count = 1;
 	char * ret = new char[strlen(myStr) + 1];
 	int shift = 0;
+	int spaceshift = 0;
 	for (int i = 0; i < strlen(myStr); i++){
+		int shifted = i - shift;
 		if(myStr[i] == '\\' || myStr[i] == '/')
 			count = 1;
 		if(count == 10){
-			ret[i - 1 - shift] = '1';
-			ret[i - 2 - shift] = '~';
+			ret[shifted - 1] = '1';
+			ret[shifted - 2] = '~';
 		}
 		if(count < 10)
-			ret[i - shift] = myStr[i];
+			ret[shifted - spaceshift] = myStr[i];
 		else
 			shift++;
 		count++;
+		while(i < strlen(myStr) - 1 && myStr[i + 1] == ' '){
+			i++;
+			count++;
+			spaceshift++;
+		}
 	}
 	ret[strlen(myStr)-shift] = '\0';
 	return ret;
