@@ -9,4 +9,4 @@ add the ASMBL folder to c:\amb_Gas
 
 add c:\amb_Gas\ASMBL to the PATH variable to use rsm wherever you want
 
-all .c file are compiled with gcc in dosbox
+all .c file are compiled with gcc in dosbox so they are fine, if you have problem with rsm try to recompile it
