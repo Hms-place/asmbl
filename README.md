@@ -7,7 +7,7 @@
 - __dbg__ to debug a .exe file
 
 ## Lazy trick
-We both know u have not time to lose, so we made for u the "dosboxHere.vbs" which opens dosbox in the current path. The "three-terminal-windows" is now far memory! Copy it in the working directory
+We both know u that have not time to lose, so we made for u the "dosboxHere.vbs" which opens dosbox in the current path. The "three-terminal-windows" is now far memory! Copy it in the working directory
 
 ## Install
 add the ASMBL folder (the one with only executables) to C:\amb_GAS (it must be here to work)
