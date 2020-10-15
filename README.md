@@ -2,9 +2,9 @@
 
 ## Commands
 
-	- __rsm__ to open dosBox in your current folder (if u set path)
-	- __asm__ to assemble a .s file
-	- __dbg__ to debug a .exe file
+- __rsm__ to open dosBox in your current folder (if u set path)
+- __asm__ to assemble a .s file
+- __dbg__ to debug a .exe file
 
 ## Lazy trick
 We both know u have not time to lose, so we made for u the "dosboxHere.vbs" which opens dosbox in the current path. The "three-terminal-windows" is now far memory! Copy it in the working directory
