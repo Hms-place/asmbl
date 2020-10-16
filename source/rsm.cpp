@@ -1,6 +1,6 @@
-#include<stdlib.h> 
-#include<stdio.h> 
-#include<unistd.h>
+#include <stdlib.h> 
+#include <stdio.h> 
+#include <unistd.h>
 #include <string.h>
 #include <limits.h>
 
@@ -56,13 +56,16 @@ int main(int argc, char *argv[]) {
 			puts("wrong input");
 			return 0;
 		}
-			
 	}
-	char toprint[PATH_MAX];
+	char toprint[500];
+	char * cur = getDosBoxCompPath(cwd);
+	if(cur[0] != 'C'){
+		puts("sorry you can use dosBox only in C subdirectories");
+		return 0;
+	}
 	sprintf(toprint,"echo running dosBox in %s",cwd);
 	system(toprint);
-	char * cur = getDosBoxCompPath(cwd);
 	//back to root to have permissions and dosbox shit
-	sprintf(toprint," CD\\ && C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole -c \"MOUNT C .\"  -c \"C:\"  -c \"CD %s\" -c \"set PATH=C:\\amb_GAS\\GAS\\BIN;C:\\amb_GAS\\ASMBL;Z:\\ \" -c \"set DJGPP=C:\\amb_GAS\\GAS\\DJGPP.ENV \" %s",cur,clear);
+	sprintf(toprint,"CD\\ && C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole -c \"MOUNT C .\"  -c \"C:\" -c \"CD %s\" -c \"set PATH=C:\\amb_GAS\\GAS\\BIN;C:\\amb_GAS\\ASMBL;Z:\\ \" -c \"set DJGPP=C:\\amb_GAS\\GAS\\DJGPP.ENV \" %s",cur, clear);
 	system(toprint);
 }
