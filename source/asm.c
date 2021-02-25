@@ -1,5 +1,5 @@
-#include<stdlib.h> 
-#include<stdio.h> 
+#include <stdlib.h>
+#include <stdio.h>
 #include "asmlib.h"
 
 void Help(){
@@ -7,6 +7,7 @@ void Help(){
 	puts(" asm filename.s [-o outputname.exe] [-l] \r\n -help");
 	puts(" -o lets you decide the output name \r\n -l gets you an outputname.lis file with infos");
 }
+
 int main(int argc, char *argv[]) {
 	char * toCompile = argv[1];
 	char toprint [500];
@@ -15,70 +16,72 @@ int main(int argc, char *argv[]) {
 		puts(" sup, 'm workin fine \r\n use me to compile .s files  \r\n asm -help if you need help");
 		return 0;
 	}
-	if(strncmp(toCompile,"-help",10) == 0){
+
+	if(strncmp(toCompile, "-help", 10) == 0){
 		Help();
 		return 0;
 	}
-	char * output = 0; 	//output name
-	int l = 0;			//write assembled code
-	int od = 0;			//tells you if you've finded -o
+
+	char * outputFileName = NULL;			//output name
+	int makeListato = 0;    				//write assembled code
+	int isOutputFileSpecified = 0;			//tells you if you've found -o
 	int i;
+
 	for (i = 2; i < argc; i++){
-		int param = argv[i][0] == '-'; 
-		if(od){
-			if(param){
+		int isParameter = argv[i][0] == '-';
+		if(isOutputFileSpecified){
+			if(isParameter){
 				puts("you must specify a filename after -o");
-				return 0;
+				return 1;
 			}
 			else{
-				output = (char *) malloc(strlen(argv[i]) + 1);
-				strcpy(output,argv[i]);
+				outputFileName = (char *) malloc(strlen(argv[i]) + 1);
+				strcpy(outputFileName, argv[i]);
 			}
 		}
-		if(param || od){ //is a parameter
-			l = strncmp(argv[i],"-l",5) == 0 || l;
-			od = strncmp(argv[i],"-o",5) == 0;
-		}else{
-			sprintf(toprint,"%s is not a valid parameter",argv[i]);
+
+		if(isParameter || isOutputFileSpecified){ //is a parameter
+			makeListato = strncmp(argv[i], "-l", 5) == 0 || makeListato;
+			isOutputFileSpecified = strncmp(argv[i], "-o", 5) == 0;
+		}
+		else{
+			sprintf(toprint,"%s is not a valid parameter", argv[i]);
 			puts(toprint);
 		}
 	}
+
 	// if the last thing that you find is a -o there are some probs
-	if(od){
+	if(isOutputFileSpecified){
 		puts("you must specify a filename after -o");
-		return 0;
+		return 2;
 	}
+
 	//files check
-	if(!checkExtS(toCompile)) {
+	if(!endsWith(toCompile, ".s")) {
 		puts("error this file is not supported, use *.s");
-		return 1;
+		return 3;
 	}
-	char * noext = getName(toCompile);
-	if(output && Len(getName(output))>8){ //check the output if it was specified
+
+	char * targetBaseName = getBaseName(toCompile);
+	char * outputBaseName = (outputFileName) ? getBaseName(outputFileName) : targetBaseName;
+
+	if(outputFileName && baseNameLen(outputBaseName) > 8){
 		puts("the output name is too long");
-		return 1;
+		return 4;
 	}
-	//if the output is not specified, output = noext + ".exe"
-	if(!output){
-		output = (char *) malloc(strlen(noext) + 1 + 4);
-		sprintf(output,"%s.exe",noext);
-	}
-	// add .exe in the output name in case it doesn't have it
-	if(!checkExtExe(output)){
-		int strl = strlen(output);
-		char * tmp = (char *) malloc(strl + 1 + 4);
-		strcpy(tmp, output);
-		strcat(tmp, ".exe");
-		free(output);
-		output = tmp;
-	}
-	char * list = (char *) malloc(strlen(output) + 10);		// e che cazzo me ne fotto
-	if(l)
-		sprintf(list,">>%s.lis",getName(output));
+
+	//Add .exe to output basename
+	outputFileName = realloc(outputFileName, strlen(outputBaseName) + 4 + 1);
+	sprintf(outputFileName, "%s.exe", outputBaseName);
+
+	char * listatoFileName = (char *) malloc(strlen(outputBaseName) + 10);
+	if(makeListato)
+		sprintf(listatoFileName, ">>%s.lis", outputBaseName);
 	else
-		strcpy(list,">NUL");
-	sprintf(toprint,"gcc %s -o %s -Wa,-a -g %s",toCompile,output,list);
+		strcpy(listatoFileName, ">NUL");
+
+	sprintf(toprint, "gcc %s -o %s -Wa,-a -g %s", toCompile, outputFileName, listatoFileName);
 	puts(toprint);
 	system(toprint);
-    return 0; 
+    return 0;
 }

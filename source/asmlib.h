@@ -1,21 +1,29 @@
-#include<stdlib.h> 
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
-char *getName(const char* myStr) {
+char * getBaseName(const char* myStr) {
     if (!myStr) //check for null
 		return NULL;
-	char *retStr;
-    if ((retStr = (char*) malloc (strlen (myStr) + 1)) == NULL) //malloc and check errors
+
+	char *retStr = (char*) malloc(strlen(myStr) + 1);
+
+    if (retStr == NULL) //malloc and check errors
 		return NULL;
+
     strcpy (retStr, myStr);
-	int i = 0;
-	for (i = strlen (retStr); i >= 0; i--){
-		if(retStr[i] == '.')
+
+	int i = strlen (retStr);
+	for (; i >= 0; i--){
+		if(retStr[i] == '.'){
 			retStr[i] = '\0';
+			return retStr;
+		}
 	}
+
     return retStr;
 }
+
 char *getFolder(const char* myStr) {
     if (!myStr) //check for null
 		return NULL;
@@ -31,7 +39,8 @@ char *getFolder(const char* myStr) {
 	}
     return retStr;
 }
-int Len(const char* myStr){
+
+int baseNameLen(const char* myStr){
 	if(!myStr)
 		return -1;
 	int i = 0;
@@ -43,20 +52,28 @@ int Len(const char* myStr){
 	}
 	return count;
 }
-int checkExtExe(const char* myStr){
-	if(!myStr)
-		return 0;
-	int strl = strlen(myStr);
-	if (strl < 4)
-		return 0;
-	int last = myStr[strl - 1]=='e' || myStr[strl - 1]=='E';
-	int lastt = myStr[strl - 2]=='x' || myStr[strl - 2]=='X';
-	int lasttt = myStr[strl - 3]=='e' || myStr[strl - 3]=='E';
-	return last && lastt && lasttt && myStr[strl - 4]=='.';
+
+char toLower(char character){
+	if(character >= 'A' && character <= 'Z')
+		return character | 0x20;
+
+	return character;
 }
-int checkExtS(const char* myStr){
-	if (!myStr) //check for null
+
+int endsWith(const char* string, const char* pattern){
+	if(!string || !pattern)
 		return 0;
-	int strl = strlen(myStr);
-	return (myStr[strl - 1]=='s' || myStr[strl - 1]=='S') && myStr[strl - 2]=='.';
+
+	int stringLength = strlen(string);
+	int patternLength = strlen(pattern);
+	int	i;
+
+	if(patternLength > stringLength)
+		return 0;
+
+	for(i = 0; i < patternLength; i++)
+		if(toLower(string[stringLength - i]) != toLower(pattern[patternLength - i]))
+			return 0;
+
+	return 1;
 }
