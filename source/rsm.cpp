@@ -145,12 +145,13 @@ int main(int argc, char *argv[]) {
 	//back to root to have permissions and dosbox stuff
 	sprintf(
 		command,
-		" \"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole\" "
+		" \"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole\" " 
+		"-c \" MOUNT C C:\\ \""
+		"-c \" C:\\ \"" 
+		
 		"-c \"set PATH=C:\\amb_GAS\\GAS\\BIN;C:\\amb_GAS\\ASMBL\\execs;Z:\\ \""
 		"-c \"set DJGPP=C:\\amb_GAS\\GAS\\DJGPP.ENV \""
 
-		"-c \" MOUNT C C:\\ \""
-		"-c \" C:\\ \"" 
 		"%s"
 		
 		"-c \"CD %s\""
