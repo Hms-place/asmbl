@@ -60,6 +60,10 @@ inline bool exists (const std::string& name) {
     return f.good();
 }
 void install(){
+	if(!exists("C:\\amb_GAS\\ASMBL\\source\\asm.c") || !exists("C:\\amb_GAS\\ASMBL\\source\\dsm.c") || !exists("C:\\amb_GAS\\ASMBL\\source\\asmlib.h")){
+		puts(" error: cannot find source files");
+		return;
+	}
 	system(
 		" \"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole\" " 
 		"-c \"MOUNT C C:\\\" " 
