@@ -6,14 +6,13 @@
 
 int main(int argc, char *argv[]) {
 	if (argc < 2){
-		puts(" hello i'm your assembly debugger");
-		puts(" use me to debug .exe assembly files");
-		puts(" dsm -help if you need help");
+		puts("hello i'm your assembly debugger");
+		puts("use me to debug .exe assembly files");
 		return 0;
 	}
 
 	if(!endsWith(argv[1], ".exe")) {
-		puts("error this file is not supported, use *.exe");
+		puts("error: this file is not supported, use *.exe");
 		return 1;
 	}
 

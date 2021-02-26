@@ -55,10 +55,12 @@ char * getDosBoxCompatiblePath(const char * myStr){
 	
 	return compPath;
 }
+
 inline bool exists (const std::string& name) {
     std::ifstream f(name.c_str());
     return f.good();
 }
+
 void install(){
 	if(!exists("C:\\amb_GAS\\ASMBL\\source\\asm.c") || !exists("C:\\amb_GAS\\ASMBL\\source\\dsm.c") || !exists("C:\\amb_GAS\\ASMBL\\source\\asmlib.h")){
 		puts(" error: cannot find source files");
@@ -127,9 +129,11 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	//if asm and dsm are not compiled compile them
-	if(!exists("C:\\amb_GAS\\ASMBL\\execs\\asm.exe") || !exists("C:\\amb_GAS\\ASMBL\\execs\\dsm.exe"))
-		install();
+	//if asm and dsm are not compiled give error
+	if(!exists("C:\\amb_GAS\\ASMBL\\execs\\asm.exe") || !exists("C:\\amb_GAS\\ASMBL\\execs\\dsm.exe")){
+		puts("error: asm and dsm aren't installed");
+		return 0;
+	}
 	
 	//set 500 to the correct value
 	char * command = (char *) malloc(strlen(curDirectory) + 500 + 1);
@@ -152,7 +156,6 @@ int main(int argc, char *argv[]) {
 	sprintf(command,"echo running dosBox in %s",curDirectory);
 	system(command);
 
-	//back to root to have permissions and dosbox stuff
 	sprintf(
 		command,
 		" \"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole\" " 

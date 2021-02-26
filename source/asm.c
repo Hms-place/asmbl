@@ -4,10 +4,10 @@
 
 void Help(){
 	// asm erjh.s -o name.exe -l -help
-	puts(" asm filename.s [-o outputname.exe] [-l]");
-	puts(" -help");
-	puts(" -o lets you decide the output name");
-	puts(" -l gets you an outputname.lis file with infos");
+	puts("asm filename.s [-o outputname.exe] [-l]");
+	puts("-help");
+	puts("-o lets you decide the output name");
+	puts("-l gets you an outputname.lis file with infos");
 }
 
 int main(int argc, char *argv[]) {
@@ -15,9 +15,9 @@ int main(int argc, char *argv[]) {
 	char toprint [500];
 
 	if (argc < 2){
-		puts(" sup, 'm workin fine");
-		puts(" use me to compile .s files");
-		puts(" asm -help if you need help");
+		puts("hello i'm your assembly assembler");
+		puts("use me to compile .s files");
+		puts("asm -help if you need help");
 		return 0;
 	}
 
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 
 	//files check
 	if(!endsWith(toCompile, ".s")) {
-		puts("error this file is not supported, use *.s");
+		puts("error: this file is not supported, use *.s");
 		return 3;
 	}
 
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
 	char * outputBaseName = (outputFileName) ? getBaseName(outputFileName) : targetBaseName;
 
 	if(outputFileName && baseNameLen(outputBaseName) > 8){
-		puts("the output name is too long");
+		puts("error: the output name is too long");
 		return 4;
 	}
 
