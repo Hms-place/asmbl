@@ -3,7 +3,7 @@
 #include "asmlib.h"
 
 void Help(){
-	// asm erjh.s -o dio.exe -l -help
+	// asm erjh.s -o name.exe -l -help
 	puts(" asm filename.s [-o outputname.exe] [-l] \r\n -help");
 	puts(" -o lets you decide the output name \r\n -l gets you an outputname.lis file with infos");
 }
