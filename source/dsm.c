@@ -6,9 +6,9 @@
 
 int main(int argc, char *argv[]) {
 	if (argc < 2){
-		puts(" sup, 'm workin fine\r\n" \
-		" use me to debug .exe assembly files\r\n" \
-		" dsm -help if you need help");
+		puts(" hello i'm your assembly debugger");
+		puts(" use me to debug .exe assembly files");
+		puts(" dsm -help if you need help");
 		return 0;
 	}
 

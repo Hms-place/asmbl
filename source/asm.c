@@ -4,8 +4,10 @@
 
 void Help(){
 	// asm erjh.s -o name.exe -l -help
-	puts(" asm filename.s [-o outputname.exe] [-l] \r\n -help");
-	puts(" -o lets you decide the output name \r\n -l gets you an outputname.lis file with infos");
+	puts(" asm filename.s [-o outputname.exe] [-l]");
+	puts(" -help");
+	puts(" -o lets you decide the output name");
+	puts(" -l gets you an outputname.lis file with infos");
 }
 
 int main(int argc, char *argv[]) {
@@ -13,7 +15,9 @@ int main(int argc, char *argv[]) {
 	char toprint [500];
 
 	if (argc < 2){
-		puts(" sup, 'm workin fine \r\n use me to compile .s files  \r\n asm -help if you need help");
+		puts(" sup, 'm workin fine");
+		puts(" use me to compile .s files");
+		puts(" asm -help if you need help");
 		return 0;
 	}
 
