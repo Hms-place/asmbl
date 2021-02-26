@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <limits.h>
+#include <fstream>
 
 char * getDosBoxCompatiblePath(const char * myStr){
 	if(!myStr)
@@ -50,15 +51,21 @@ char * getDosBoxCompatiblePath(const char * myStr){
 	}
 
 	//set the last char to end string
-	folderLength[strlen(myStr)-shift] = '\0';
+	compPath[strlen(myStr)-shift] = '\0';
 	
 	return compPath;
 }
+inline bool exists (const std::string& name) {
+    std::ifstream f(name.c_str());
+    return f.good();
+}
 
 void Help(){
-	puts(" write rsm to launch dosbox");
-	puts(" -help to get this message");
-	puts(" -nocls to not clear the dosbox terminal (use it to see what i'm doing)");
+	puts("write rsm to launch dosbox");
+	puts("-check to check if asm and dsm are installed");
+	puts("-install to install asm and dsm");
+	puts("-help to get this message");
+	puts("-nocls to not clear the dosbox terminal (use it to see what i'm doing)");
 }
 
 int main(int argc, char *argv[]) {
@@ -69,6 +76,10 @@ int main(int argc, char *argv[]) {
 		   return 1;
 	}
 
+	if(!exists("C:\\amb_GAS\\DOSBox\\dosbox.exe")){
+		puts("error: install dosbox to use this software (C:\\amb_GAS\\DOSBox\\dosbox.exe not found)");
+		return 1;
+	}
 	char clear [] = "-c \"cls\"";
 
 	if(argc > 1){
@@ -78,8 +89,33 @@ int main(int argc, char *argv[]) {
 		}else if(strcmp("-nocls",argv[1]) == 0){
 			// clear the string
 			clear[0] = '\0';
-		}
-		else{
+		}else if(strcmp("-install",argv[1]) == 0){
+			if(exists("C:\\amb_GAS\\ASMBL\\execs\\asm.exe") && exists("C:\\amb_GAS\\ASMBL\\execs\\dsm.exe")){
+				puts("asm and dsm seem to be correctly installed");
+				return 0;
+			}
+			system(
+				" \"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole\" " 
+				"-c \"MOUNT C C:\\\" " 
+				"-c \"C:\\ \""
+				"-c \"set DJGPP=C:\\amb_GAS\\GAS\\DJGPP.ENV \""
+				"-c \"set PATH=C:\\amb_GAS\\GAS\\BIN\" "
+				"-c \"cd github\\asmbl\\source\" "
+				"-c \"gcc -o C:\\amb_GAS\\ASMBL\\execs\\asm.exe C:\\amb_GAS\\ASMBL\\source\\asm.c C:\\amb_GAS\\ASMBL\\source\\asmlib.h\" "
+				"-c \"gcc -o C:\\amb_GAS\\ASMBL\\execs\\dsm.exe C:\\amb_GAS\\ASMBL\\source\\dsm.c C:\\amb_GAS\\ASMBL\\source\\asmlib.h\" "
+				"-c \"exit\""
+			);
+			return 0;
+
+		}else if(strcmp("-check",argv[1]) == 0){
+			if(exists("C:\\amb_GAS\\ASMBL\\execs\\asm.exe") && exists("C:\\amb_GAS\\ASMBL\\execs\\dsm.exe")){
+				puts("asm and dsm seem to be correctly installed");
+				return 0;
+			}else{
+				puts("asm and dsm aren't installed");
+				return 0;
+			}
+		}else{
 			puts("wrong input");
 			return 0;
 		}
