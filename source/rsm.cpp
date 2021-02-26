@@ -146,7 +146,7 @@ int main(int argc, char *argv[]) {
 	sprintf(
 		command,
 		" \"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole\" "
-		"-c \"set PATH=C:\\amb_GAS\\GAS\\BIN;C:\\amb_GAS\\ASMBL;Z:\\ \""
+		"-c \"set PATH=C:\\amb_GAS\\GAS\\BIN;C:\\amb_GAS\\ASMBL\\execs;Z:\\ \""
 		"-c \"set DJGPP=C:\\amb_GAS\\GAS\\DJGPP.ENV \""
 
 		"-c \" MOUNT C C:\\ \""
