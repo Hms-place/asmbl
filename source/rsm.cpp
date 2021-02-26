@@ -59,7 +59,19 @@ inline bool exists (const std::string& name) {
     std::ifstream f(name.c_str());
     return f.good();
 }
-
+void install(){
+	system(
+		" \"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole\" " 
+		"-c \"MOUNT C C:\\\" " 
+		"-c \"C:\\ \""
+		"-c \"set DJGPP=C:\\amb_GAS\\GAS\\DJGPP.ENV \""
+		"-c \"set PATH=C:\\amb_GAS\\GAS\\BIN\" "
+		"-c \"cd github\\asmbl\\source\" "
+		"-c \"gcc -o C:\\amb_GAS\\ASMBL\\execs\\asm.exe C:\\amb_GAS\\ASMBL\\source\\asm.c C:\\amb_GAS\\ASMBL\\source\\asmlib.h\" "
+		"-c \"gcc -o C:\\amb_GAS\\ASMBL\\execs\\dsm.exe C:\\amb_GAS\\ASMBL\\source\\dsm.c C:\\amb_GAS\\ASMBL\\source\\asmlib.h\" "
+		"-c \"exit\""
+	);
+}
 void Help(){
 	puts("write rsm to launch dosbox");
 	puts("-check to check if asm and dsm are installed");
@@ -94,17 +106,7 @@ int main(int argc, char *argv[]) {
 				puts("asm and dsm seem to be correctly installed");
 				return 0;
 			}
-			system(
-				" \"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole\" " 
-				"-c \"MOUNT C C:\\\" " 
-				"-c \"C:\\ \""
-				"-c \"set DJGPP=C:\\amb_GAS\\GAS\\DJGPP.ENV \""
-				"-c \"set PATH=C:\\amb_GAS\\GAS\\BIN\" "
-				"-c \"cd github\\asmbl\\source\" "
-				"-c \"gcc -o C:\\amb_GAS\\ASMBL\\execs\\asm.exe C:\\amb_GAS\\ASMBL\\source\\asm.c C:\\amb_GAS\\ASMBL\\source\\asmlib.h\" "
-				"-c \"gcc -o C:\\amb_GAS\\ASMBL\\execs\\dsm.exe C:\\amb_GAS\\ASMBL\\source\\dsm.c C:\\amb_GAS\\ASMBL\\source\\asmlib.h\" "
-				"-c \"exit\""
-			);
+			install();
 			return 0;
 
 		}else if(strcmp("-check",argv[1]) == 0){
@@ -121,6 +123,10 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
+	//if asm and dsm are not compiled compile them
+	if(!exists("C:\\amb_GAS\\ASMBL\\execs\\asm.exe") || !exists("C:\\amb_GAS\\ASMBL\\execs\\dsm.exe"))
+		install();
+	
 	//set 500 to the correct value
 	char * command = (char *) malloc(strlen(curDirectory) + 500 + 1);
 	char * compatiblePath = getDosBoxCompatiblePath(curDirectory);
