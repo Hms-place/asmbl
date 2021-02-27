@@ -72,7 +72,6 @@ void install(){
 		"-c \"C:\\ \""
 		"-c \"set DJGPP=C:\\amb_GAS\\GAS\\DJGPP.ENV \""
 		"-c \"set PATH=C:\\amb_GAS\\GAS\\BIN\" "
-		"-c \"cd github\\asmbl\\source\" "
 		"-c \"gcc -o C:\\amb_GAS\\ASMBL\\execs\\asm.exe C:\\amb_GAS\\ASMBL\\source\\asm.c C:\\amb_GAS\\ASMBL\\source\\asmlib.h\" "
 		"-c \"gcc -o C:\\amb_GAS\\ASMBL\\execs\\dsm.exe C:\\amb_GAS\\ASMBL\\source\\dsm.c C:\\amb_GAS\\ASMBL\\source\\asmlib.h\" "
 		"-c \"exit\""
