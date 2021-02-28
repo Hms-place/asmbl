@@ -4,54 +4,76 @@
 #include <string.h>
 #include <limits.h>
 #include <fstream>
+#include <iostream>
+
 
 char * getDosBoxCompatiblePath(const char * myStr){
 	if(!myStr)
-		return NULL;
-	
-	char * compPath = new char[strlen(myStr) + 1];
-	
-	//used to skip every char that is not shown in dosBox
+		return NULL;	
+
 	int shift = 0;
-	
-	//used to skip every char that is a space
 	int spaceshift = 0;
 
+	int strl = strlen(myStr);
 	int folderLength = 1;
+    int spaces = 0;
+	char * compPath = new char[strl + 1];
+
+    int shifted = 0;
 	
-	for (int i = 0; i < strlen(myStr); i++){
+	for (int i = 0; i <= strl; i++){
 		
-		int shifted = i - shift;
+
+		shifted = i - shift - spaceshift;
 		
-		//if you find a new folder reset the folderLength
-		if(myStr[i] == '\\' || myStr[i] == '/')
-			folderLength = 1;
-		
-		//if the folderLength reaches 10 set the last 2 chars to be ~1 
-		if(folderLength == 10){
-			compPath[shifted - 1] = '1';
-			compPath[shifted - 2] = '~';
-		}
+        //folder end
+		if(i == strl || myStr[i] == '\\' || myStr[i] == '/' ){
+            if(i == strl - 1)
+                folderLength++;
+            
+            //if the folderLength reaches 10 set the last 2 chars to be ~1 
+            if(folderLength - spaces >= 10 || folderLength - spaces>= 9 && spaces > 0){
+                compPath[shifted] = '\\'; 
+                compPath[shifted - 1] = '1';
+                compPath[shifted - 2] = '~';
+            }else if (folderLength >= 10 && folderLength - spaces == 8 ||  folderLength - spaces == 7){
+                if(folderLength - spaces == 7){
+                    shift -= 2;
+                    shifted += 2;
+                }else {
+                    shift -= 1;
+                    shifted += 1;
+                }
+
+                compPath[shifted] = '\\';
+                compPath[shifted - 1] = '1';
+                compPath[shifted - 2] = '~';
+            }else
+                compPath[shifted] = '\\';
+            folderLength = 1;
+            spaces = 0;
+            continue;
+        }
 
 		//if the folderLength is currently fine set the char to be as myStr
-		if(folderLength < 10)
-			compPath[shifted - spaceshift] = myStr[i];
+		if(folderLength - spaces < 10)
+			compPath[shifted] = myStr[i];
 		else
 			shift++;
-		
 		//every cicle add 1 to folderLength
 		folderLength++;
 
 		//every time you find a space inc i, folderLength and spaceShift
-		while(i < strlen(myStr) - 1 && myStr[i + 1] == ' '){
+		while(i < strl - 1 && myStr[i + 1] == ' '){
 			i++;
 			folderLength++;
-			spaceshift++;
+            spaces++;
+			spaceshift++; 
 		}
 	}
 
 	//set the last char to end string
-	compPath[strlen(myStr)-shift] = '\0';
+	compPath[shifted] = '\0';
 	
 	return compPath;
 }
@@ -63,23 +85,23 @@ inline bool exists (const std::string& name) {
 
 void install(){
 	if(!exists("C:\\amb_GAS\\ASMBL\\source\\asm.c") || !exists("C:\\amb_GAS\\ASMBL\\source\\dsm.c") || !exists("C:\\amb_GAS\\ASMBL\\source\\asmlib.h")){
-		puts(" error: cannot find source files");
+		puts("error: cannot find source files");
 		return;
 	}
 	system(
-		" \"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole\" " 
+		"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole " 
+		"-c \"cls\" "
 		"-c \"MOUNT C C:\\\" " 
 		"-c \"C:\\ \""
 		"-c \"set DJGPP=C:\\amb_GAS\\GAS\\DJGPP.ENV \""
 		"-c \"set PATH=C:\\amb_GAS\\GAS\\BIN\" "
-		"-c \"gcc -o C:\\amb_GAS\\ASMBL\\execs\\asm.exe C:\\amb_GAS\\ASMBL\\source\\asm.c C:\\amb_GAS\\ASMBL\\source\\asmlib.h\" "
-		"-c \"gcc -o C:\\amb_GAS\\ASMBL\\execs\\dsm.exe C:\\amb_GAS\\ASMBL\\source\\dsm.c C:\\amb_GAS\\ASMBL\\source\\asmlib.h\" "
+		"-c \"gcc C:\\amb_GAS\\ASMBL\\source\\asm.c C:\\amb_GAS\\ASMBL\\source\\asmlib.h -o C:\\amb_GAS\\ASMBL\\execs\\asm.exe\" "
+		"-c \"gcc C:\\amb_GAS\\ASMBL\\source\\dsm.c C:\\amb_GAS\\ASMBL\\source\\asmlib.h -o C:\\amb_GAS\\ASMBL\\execs\\dsm.exe\" "
 		"-c \"exit\""
 	);
 }
 void Help(){
 	puts("write rsm to launch dosbox");
-	puts("-check to check if asm and dsm are installed");
 	puts("-install to install asm and dsm");
 	puts("-help to get this message");
 	puts("-nocls to not clear the dosbox terminal (use it to see what i'm doing)");
@@ -107,21 +129,8 @@ int main(int argc, char *argv[]) {
 			// clear the string
 			clear[0] = '\0';
 		}else if(strcmp("-install",argv[1]) == 0){
-			if(exists("C:\\amb_GAS\\ASMBL\\execs\\asm.exe") && exists("C:\\amb_GAS\\ASMBL\\execs\\dsm.exe")){
-				puts("asm and dsm seem to be correctly installed");
-				return 0;
-			}
 			install();
 			return 0;
-
-		}else if(strcmp("-check",argv[1]) == 0){
-			if(exists("C:\\amb_GAS\\ASMBL\\execs\\asm.exe") && exists("C:\\amb_GAS\\ASMBL\\execs\\dsm.exe")){
-				puts("asm and dsm seem to be correctly installed");
-				return 0;
-			}else{
-				puts("asm and dsm aren't installed");
-				return 0;
-			}
 		}else{
 			puts("wrong input");
 			return 0;
@@ -131,6 +140,11 @@ int main(int argc, char *argv[]) {
 	//if asm and dsm are not compiled give error
 	if(!exists("C:\\amb_GAS\\ASMBL\\execs\\asm.exe") || !exists("C:\\amb_GAS\\ASMBL\\execs\\dsm.exe")){
 		puts("error: asm and dsm aren't installed");
+		puts("do you want to install them? [Y/N]");
+		char * resp;
+		std::cin >> resp;
+		if(strcmp(resp, "Y") == 0 || strcmp(resp, "y") == 0)
+			install();
 		return 0;
 	}
 	
@@ -152,12 +166,13 @@ int main(int argc, char *argv[]) {
 	else
 		toMount[0] = '\0';
 	
-	sprintf(command,"echo running dosBox in %s",curDirectory);
+	sprintf(command,"echo v 1.1 running dosBox in %s",curDirectory);
 	system(command);
 
 	sprintf(
 		command,
-		" \"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole\" " 
+		"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole " 
+		"-c \"cls\""
 		"-c \" MOUNT C C:\\ \""
 		"-c \" C:\\ \"" 
 		
@@ -175,7 +190,7 @@ int main(int argc, char *argv[]) {
 	);
 	
 	system(command);
-	
+	puts(command);
 	free(command);
 	free(compatiblePath);
 	free(toMount);

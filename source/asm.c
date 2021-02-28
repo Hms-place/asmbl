@@ -12,7 +12,7 @@ void Help(){
 
 int main(int argc, char *argv[]) {
 	char * toCompile = argv[1];
-	char toprint [500];
+	char toPrint [500];
 
 	if (argc < 2){
 		puts("hello i'm your assembly assembler");
@@ -49,8 +49,8 @@ int main(int argc, char *argv[]) {
 			isOutputFileSpecified = strncmp(argv[i], "-o", 5) == 0;
 		}
 		else{
-			sprintf(toprint,"%s is not a valid parameter", argv[i]);
-			puts(toprint);
+			sprintf(toPrint,"%s is not a valid parameter", argv[i]);
+			puts(toPrint);
 		}
 	}
 
@@ -84,8 +84,15 @@ int main(int argc, char *argv[]) {
 	else
 		strcpy(listatoFileName, ">NUL");
 
-	sprintf(toprint, "gcc %s -o %s -Wa,-a -g %s", toCompile, outputFileName, listatoFileName);
-	puts(toprint);
-	system(toprint);
-    return 0;
+	sprintf(toPrint, "gcc %s -o %s -Wa,-a -g %s", toCompile, outputFileName, listatoFileName);
+	puts(toPrint);
+	system(toPrint);
+	
+	free(targetBaseName);
+	free(outputBaseName);
+	
+	free(listatoFileName);
+	free(outputFileName);
+    
+	return 0;
 }
