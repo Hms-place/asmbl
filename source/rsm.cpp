@@ -90,7 +90,7 @@ void install(){
 	system(
 		"C:\\amb_GAS\\DOSBox\\dosbox.exe -noconsole " 
 		"-c \"cls\" "
-		"-c \"MOUNT C C:\\\" " 
+		"-c \"MOUNT C C:\\ \" " 
 		"-c \"C:\\ \""
 		"-c \"set DJGPP=C:\\amb_GAS\\GAS\\DJGPP.ENV \""
 		"-c \"set PATH=C:\\amb_GAS\\GAS\\BIN\" "
