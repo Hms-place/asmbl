@@ -22,7 +22,6 @@ char * getDosBoxCompatiblePath(const char * myStr){
     int shifted = 0;
 	
 	for (int i = 0; i <= strl; i++){
-		
 
 		shifted = i - shift - spaceshift;
 		
@@ -32,7 +31,7 @@ char * getDosBoxCompatiblePath(const char * myStr){
                 folderLength++;
             
             //if the folderLength reaches 10 set the last 2 chars to be ~1 
-            if(folderLength - spaces >= 10 || folderLength - spaces>= 9 && spaces > 0){
+            if(folderLength - spaces >= 10 || folderLength - spaces >= 9 && spaces > 0){
                 compPath[shifted] = '\\'; 
                 compPath[shifted - 1] = '1';
                 compPath[shifted - 2] = '~';
@@ -143,8 +142,12 @@ int main(int argc, char *argv[]) {
 		puts("do you want to install them? [Y/N]");
 		char * resp;
 		std::cin >> resp;
-		if(strcmp(resp, "Y") == 0 || strcmp(resp, "y") == 0)
+		if (strlen(resp) == 0)
+			return 0; 
+		if(resp[0] == 'Y' || resp[0] == 'y')
 			install();
+		else
+			puts("ok never mind");
 		return 0;
 	}
 	
