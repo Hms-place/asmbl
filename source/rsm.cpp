@@ -188,9 +188,7 @@ int main(int argc, char *argv[]) {
 		compatiblePath, 
 		clear
 	);
-	
 	system(command);
-	puts(command);
 	free(command);
 	free(compatiblePath);
 	free(toMount);

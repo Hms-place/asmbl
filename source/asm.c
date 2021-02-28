@@ -85,7 +85,6 @@ int main(int argc, char *argv[]) {
 		strcpy(listatoFileName, ">NUL");
 
 	sprintf(toPrint, "gcc %s -o %s -Wa,-a -g %s", toCompile, outputFileName, listatoFileName);
-	puts(toPrint);
 	system(toPrint);
 	
 	free(targetBaseName);
