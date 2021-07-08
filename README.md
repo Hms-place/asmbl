@@ -10,6 +10,9 @@
 We both know that u don't have time to lose, so we made for u the "dosboxHere.vbs" which opens dosbox in the current path. The "three-terminal-windows" is now far memory! Copy it in the working directory
 
 ## Install
+```bash
+git clone https://github.com/just-Hms/asmbl C:\amb_GAS\ASMBL 
+```
 add the asmbl folder (the one with only executables) to C:\amb_GAS (it must be here to work)
 
 
